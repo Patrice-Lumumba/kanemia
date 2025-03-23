@@ -1,8 +1,12 @@
-interface User{
-  id: number;
-  name: string;
-  email: string;
-  phone: string;
-  website: string;
-  address: string;
+// import { Contact } from '..';
+interface Contact{
+  id?: number;
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  phone?: string;
+  photo?: string;
+  role?: string;
 }
+
+
