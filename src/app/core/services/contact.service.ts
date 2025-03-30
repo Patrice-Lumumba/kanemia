@@ -18,7 +18,7 @@ class Contact{
 })
 
 export class ContactService {
-  private url = "https://www.api.4gul.kanemia.com";
+  private url = "https://www.api.4gul.kanemia.com/";
 
   constructor(private http: HttpClient) {}
 
