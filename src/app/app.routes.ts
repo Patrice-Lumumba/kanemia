@@ -6,10 +6,13 @@ import { RegisterComponent } from './pages/register/register.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NavbarComponent } from './shared/components/navbar/navbar.component';
 import { authGuard } from './core/guards/auth.guard';
+import { ContactFormComponent } from './pages/contact-form/contact-form.component';
 
 export const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
+  {path: 'contact-form', component: ContactFormComponent},
+  {path: '**', redirectTo: 'login'},
   {
     path: '',
     component: NavbarComponent,

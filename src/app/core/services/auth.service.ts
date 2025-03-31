@@ -4,6 +4,7 @@ import { Injectable, signal } from "@angular/core";
 import { User } from "../../shared/models/user.model";
 import { BehaviorSubject, Observable, tap } from "rxjs";
 import { baseUrl } from "../../environments/environment";
+import { LocalStorageService } from "./local-storage.service";
 
 
 @Injectable({
@@ -11,52 +12,31 @@ import { baseUrl } from "../../environments/environment";
 })
 export class AuthService {
 
-  // private baseUrl = 'https://api.4gul.kanemia.com'; // Replace with your API base URL
-  // private authToken = new BehaviorSubject<string | null>(null);
+  private baseUrl= 'https://www.api.4gul.kanemia.com/';
 
-  // constructor(private http: HttpClient) {
-  //   const token = localStorage.getItem('authToken');
-  //   if (token) {
-  //     this.authToken.next(token);
-  //   }
-  // }
+  constructor(private http: HttpClient, private localStorageService: LocalStorageService) {}
 
-  // login(credentials: { email: string; password: string }): Observable<any> {
-  //   return this.http.post(`${this.baseUrl}/login`, credentials).pipe(
-  //     tap((response: any) => {
-  //       if(response.token)
-  //       {
-  //         localStorage.setItem('authToken', response.token);
-  //       this.authToken.next(response.token);
-  //     }
-  //     }
-  //   ));
-  // }
+  login(credentials: { email: string; password: string; }, password: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}auth/login`, credentials).pipe(
+      tap((response: any) => {
+        console.log("Réponse: " + response);
+        if(response.token){
+          this.localStorageService.setItem('token', response.user.token);
+          console.log("User token: " + response.user.token);
+        }
+      })
+    );
+  }
 
-  // logout(): void {
-  //   localStorage.removeItem('authToken');
-  //   this.authToken.next(null);
-  // }
+  getToken(): string | null{
+    return this.localStorageService.getItem('token');
+  }
 
-  // getToken(): string | null {
-  //   return localStorage.getItem('authToken');
-  // }
+  logout(): void{
+    this.localStorageService.removeItem('token');
+  }
 
-  // isAuthenticated(): boolean {
-
-  //   return !!this.authToken.value; // Returns true if token exists, false otherwise
-  // }
-
-  constructor(private http: HttpClient) {}
-  // login(data): Observable<any> {
-  //   return this.http.post(`${baseUrl}auth/login`, data);
-  // }
-
-
+  isAuthenticated(): boolean {
+    return!!this.localStorageService.getItem('token');
+  }
 }
-
-  // constructor(private http: HttpClient) {}
-
-  // login(email: string, password: string) {
-  //   return this.http.post('/api/login', { email, password })
-  // }
