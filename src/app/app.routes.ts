@@ -5,26 +5,21 @@ import { NgModule } from '@angular/core';
 import { RegisterComponent } from './pages/register/register.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NavbarComponent } from './shared/components/navbar/navbar.component';
-import { authGuard } from './core/guards/auth.guard';
+import { AuthGuard } from './core/guards/auth.guard';
 import { ContactFormComponent } from './pages/contact-form/contact-form.component';
 
 export const routes: Routes = [
-  {path: 'login', component: LoginComponent},
-  {path: 'register', component: RegisterComponent},
-  {path: 'contact-form', component: ContactFormComponent},
-  {path: '**', redirectTo: 'login'},
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'contact-form', component: ContactFormComponent },
   {
-    path: '',
-    component: NavbarComponent,
-    children:[
-      {
-        path: 'dashboard',
-        component: DashboardComponent,
-        canActivate: [authGuard]
-      }
-    ],
-  }
+    path: 'dashboard',
+    component: DashboardComponent,
+    // canActivate: [AuthGuard] // <-- Vérifie bien que ce guard est appliqué
+  },
+  { path: '**', redirectTo: 'login' }
 ];
+
 
 @NgModule({
   imports: [RouterModule.forRoot(routes),

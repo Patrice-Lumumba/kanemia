@@ -9,7 +9,7 @@ import { DashboardComponent } from "./pages/dashboard/dashboard.component";
 @Component({
   selector: 'app-root',
   imports: [
-    // RouterOutlet,
+    RouterOutlet,
     // RouterLink,
     // NavbarComponent,
     // ContactFormComponent,

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NavbarComponent } from "../../shared/components/navbar/navbar.component";
 
 @Component({
@@ -7,6 +7,12 @@ import { NavbarComponent } from "../../shared/components/navbar/navbar.component
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
+  constructor(){
+    console.log('Dashboard component');
+  }
 
+  ngOnInit(): void {
+    console.log('Dashboard component initialized');
+  }
 }
