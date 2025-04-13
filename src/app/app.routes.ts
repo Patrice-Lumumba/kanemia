@@ -11,8 +11,8 @@ import { ContactDetailsComponent } from './pages/contact-details/contact-details
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
-  { path: 'contact-form', component: ContactFormComponent },
-  { path: 'contacts-details/:id', component: ContactDetailsComponent, canActivate: [AuthGuard] },
+  { path: 'contact-form', component: ContactFormComponent, canActivate: [AuthGuard] },
+  { path: 'contact-details/:id', component: ContactDetailsComponent, canActivate: [AuthGuard] },
   { path: 'contact-form/:id', component: ContactFormComponent, canActivate: [AuthGuard] },
   {
     path: 'dashboard',

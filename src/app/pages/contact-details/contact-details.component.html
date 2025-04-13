@@ -2,11 +2,18 @@
 <div class="contact-details" *ngIf="contact">
   <h2 style="color: #6C63FF;">Détails du Contact</h2>
   <p><strong>First_Name:</strong> {{ contact.first_name }}</p>
+  <!-- <input type="text" class="form-control" disabled value={{contact.first_name}} readonly>
+  <input type="text" class="form-control" disabled value={{contact.last_name}} readonly>
+  <input type="text" class="form-control" disabled value={{contact.email}} readonly>
+  <input type="text" class="form-control" disabled value={{contact.phone}} readonly>
+  <div class="col-3">
+  <input type="text" class="form-control" disabled value={{contact.first_name}} readonly>
+  </div> -->
   <p><strong>Last_Name:</strong> {{ contact.last_name }}</p>
   <p><strong>Email:</strong> {{ contact.email }}</p>
   <p><strong>Phone:</strong> {{ contact.phone }}</p>
   <p><strong>Photo:</strong> {{ contact.photo }}</p>
   <p><strong>Photo:</strong> <img [src]="contact.photo" alt="Photo" class="photo"></p>
 
-  <button routerLink="/dashboard">Retour au tableau de bord</button>
+  <button routerLink="/dashboard" class="btn btn-primary">Retour au tableau de bord</button>
 </div>

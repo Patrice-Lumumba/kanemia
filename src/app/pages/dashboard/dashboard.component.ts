@@ -43,15 +43,6 @@ export class DashboardComponent implements OnInit {
   totalPages: number = 0;
   editing: false = false; // Variable pour suivre l'état d'édition
 
-  selectAllCheckbox: boolean = false;
-  contactDetail: any = {};
-  selectedContacts: any = [];
-  contactFeatureDialog: boolean = false;
-  contactFeatureDialogHeader: string = '';
-  contactAddEditDialog: boolean = false;
-  contactAddEditDialogHeader: string = '';
-  contactStatus: boolean = true;
-
   token: string = localStorage.getItem('token') || '';
   constructor(
     private contactService: ContactService,
@@ -59,7 +50,6 @@ export class DashboardComponent implements OnInit {
     console.log('Dashboard component');
   }
 
-  displayedColumns: Contact[] = [];
   dataSource = new MatTableDataSource<Contact>(this.contacts);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;

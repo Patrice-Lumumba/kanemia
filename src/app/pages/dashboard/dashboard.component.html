@@ -5,7 +5,7 @@
         <div class="my-5">
           <h2 class="text-lg font-semibold text-gray-900">Mes Contacts</h2>
         </div>
-          <p class="alert text-danger">test</p>
+          <button type="button" class="btn btn-danger" (click)="logout()">Déconnexion</button>
         <div   class="grid sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-3">
           <div class=" rounded-lg bg-white shadow-md p-4 mb-6 sm:mb-0">
             <a href="/contact-form" >Créer</a>
@@ -35,9 +35,9 @@
                   <td>{{contact.phone}}</td>
                   <td><img [src]="contact.photo" alt="photo de profil"></td>
                   <td>
-                    <button mat-raised-button color="primary" [routerLink]="['/contact-details', contact.user_id]">Détails</button>
-                    <button mat-raised-button color="primary" [routerLink]="['/contact-form', contact.user_id]">Editer</button>
-                    <button mat-raised-button color="warn" (click)="deleteContact(contact.user_id)">Supprimer</button>
+                    <button mat-raised-button color="primary" [routerLink]="['/contact-details', contact.id]">Détails</button>
+                    <button mat-raised-button color="primary" [routerLink]="['/contact-form', contact.id]">Editer</button>
+                    <button mat-raised-button color="warn" (click)="deleteContact(contact.id)">Supprimer</button>
                   </td>
                 </tr>
               </tbody>
@@ -57,32 +57,13 @@
       <td mat-cell > {{contact.user_id}} </td>
       <td mat-cell > {{contact.first_name}} </td>
       <td mat-cell > {{contact.last_name}} </td>
-      <td mat-cell > {{contact.email}} jjjj</td>
+      <td mat-cell > {{contact.email}} </td>
       <td mat-cell > {{contact.phone}} </td>
       <td mat-cell > {{contact.photo}} </td>
     </ng-container>
 
-    <!-- Name Column -->
-    <!-- <ng-container matColumnDef="first_name" *ngFor="let contact of contacts">
-      <th mat-header-cell *matHeaderCellDef> first_page </th>
-      <td mat-cell > {{contact.first_name}} </td>
-    </ng-container> -->
-
-    <!-- Weight Column -->
-    <!-- <ng-container matColumnDef="last_name">
-      <th mat-header-cell *matHeaderCellDef> last_name </th>
-      <td mat-cell *matCellDef="let element"> {{element.last_name}} </td>
-    </ng-container> -->
-
-    <!-- Symbol Column -->
-    <!-- <ng-container matColumnDef="symbol">
-      <th mat-header-cell *matHeaderCellDef> Symbol </th>
-      <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
-    </ng-container> -->
 
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
   <mat-paginator [pageSizeOptions]="[5, 10, 20]"
                     [pageSize]="itemsPerPage"
