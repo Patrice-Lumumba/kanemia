@@ -7,17 +7,19 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NavbarComponent } from './shared/components/navbar/navbar.component';
 import { AuthGuard } from './core/guards/auth.guard';
 import { ContactFormComponent } from './pages/contact-form/contact-form.component';
+import { ContactDetailsComponent } from './pages/contact-details/contact-details.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
   { path: 'contact-form', component: ContactFormComponent },
+  { path: 'contacts-details/:id', component: ContactDetailsComponent, canActivate: [AuthGuard] },
+  { path: 'contact-form/:id', component: ContactFormComponent, canActivate: [AuthGuard] },
   {
     path: 'dashboard',
     component: DashboardComponent,
-    // canActivate: [AuthGuard] // <-- Vérifie bien que ce guard est appliqué
+    canActivate: [AuthGuard] // <-- Vérifie bien que ce guard est appliqué
   },
-  { path: '**', redirectTo: 'login' }
+  { path: '**', redirectTo: 'login' },
 ];
 
 

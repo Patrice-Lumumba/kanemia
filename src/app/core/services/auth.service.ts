@@ -4,11 +4,12 @@ import { Observable, tap } from "rxjs";
 import { LocalStorageService } from "./local-storage.service";
 
 @Injectable({
-  providedIn: "root"
+  providedIn: "root",
 })
 export class AuthService {
 
   private baseUrl = 'https://www.api.4gul.kanemia.com/';
+  router: any;
 
   constructor(private http: HttpClient, private localStorageService: LocalStorageService) {}
 
@@ -31,9 +32,15 @@ export class AuthService {
     return this.localStorageService.getItem('token');
   }
 
-  logout(): void {
-    this.localStorageService.removeItem('token');
+  setToken(token: string) {
+    localStorage.setItem('token', token);
   }
+  logout(): void {
+    localStorage.removeItem('token');
+    localStorage.removeItem("id");
+    this.router.navigate(['/login']);
+  }
+
 
   isAuthenticated(): boolean {
     return !!this.getToken();
@@ -43,5 +50,5 @@ export class AuthService {
     return this.isAuthenticated();
   }
 
-  
+
 }

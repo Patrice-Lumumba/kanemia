@@ -1,7 +1,7 @@
 
 <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
   <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-    <img class="mx-auto h-10 w-auto" src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600" alt="Your Company">
+    <!-- <img class="mx-auto h-10 w-auto" src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600" alt="Your Company"> -->
     <h2 class="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">Sign in to your account</h2>
   </div>
 
@@ -27,11 +27,28 @@
       <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
 
     </form>
-
-    <p class="mt-10 text-center text-sm/6 text-gray-500">
-      Not a member?
-      <a href="#" class="font-semibold text-indigo-600 hover:text-indigo-500">Start a 14 day free trial</a>
-    </p>
   </div>
 </div>
+
+<!-- <form [formGroup]="loginForm" (ngSubmit)="onLogin()" class="login-form" style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+  <div class="login-container" style="background-color:#f5f7fa; padding: 2rem; max-width: 400px; margin:auto;">
+    <mat-card>
+      <h2 style="color:#6c63ff">Connexion</h2>
+      <mat-form-field class="full-width">
+        <mat-label>Email</mat-label>
+        <input matInput [(ngModel)]="loginObj.email" type="email" [formControl]="loginForm.get('email')" placeholder="Entrez votre email">
+      </mat-form-field>
+      <mat-form-field class="full-width">
+        <mat-label>Mot de passe</mat-label>
+        <input matInput [(ngModel)]="loginObj.password" type="password" [formControl]="loginForm.get('password')" placeholder="Entrez votre mot de passe">
+        <mat-error *ngIf="loginForm.get('password')?.invalid && (loginForm.get('password').dirty || loginForm.get('password').touched)">
+          Mot de passe requis
+        </mat-error>
+
+      </mat-form-field>
+      <button mat-raised-button color="primary" (click)="onLogin()" style="border-radius: 20px; background-color: #6c63ff; color:white">Se connecter</button>
+
+    </mat-card>
+  </div>
+</form> -->
 

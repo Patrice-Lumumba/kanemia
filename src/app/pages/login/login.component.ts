@@ -1,20 +1,28 @@
 import { CommonModule } from '@angular/common';
 import { AuthService } from './../../core/services/auth.service';
 import { HttpClient } from '@angular/common/http';
-import { Component, inject } from '@angular/core';
+import { Component, inject, NgModule } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { ContactFormComponent } from '../contact-form/contact-form.component';
 import { DashboardComponent } from '../dashboard/dashboard.component';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-login',
-  imports: [FormsModule, CommonModule, ReactiveFormsModule, RouterModule, ContactFormComponent, DashboardComponent, ReactiveFormsModule],
+  imports: [FormsModule, CommonModule, ReactiveFormsModule, RouterModule, ContactFormComponent, DashboardComponent, ReactiveFormsModule, CommonModule, FormsModule, MatInputModule, MatButtonModule, MatCardModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
 
+  @NgModule({
+    imports: [FormsModule, CommonModule, ReactiveFormsModule, RouterModule, ContactFormComponent, DashboardComponent, MatInputModule, MatButtonModule, MatCardModule],
+    declarations: [],
+    providers: [],
+  })
 
   loginObj = {
     "email": "",
@@ -128,7 +136,7 @@ export class LoginComponent {
         localStorage.setItem('token', token);
         console.log("Token stocké:", token);
 
-        this.router.navigate(['/contact-form'], {replaceUrl: true}).then(success => {
+        this.router.navigateByUrl('/dashboard', {replaceUrl: true}).then(success => {
           if (success) {
             console.log("Redirection vers le dashboard réussie");
           } else {
@@ -148,18 +156,6 @@ export class LoginComponent {
   });
 }
 
-testRedirection(): void {
-  console.log("Test de redirection...");
-  this.router.navigate(['/contact-form']).then(success => {
-    if (success) {
-      console.log("Redirection simple réussie");
-    } else {
-      console.error("Erreur de redirection simple");
-    }
-  }).catch(error => {
-    console.error("Erreur lors de la redirection simple :", error);
-  });
-}
 
 
 }
