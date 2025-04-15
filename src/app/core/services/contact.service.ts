@@ -25,9 +25,9 @@ export class ContactService {
 
   constructor(private http: HttpClient) {}
 
-  // getContacts(): Observable<Contact[]> {
-  //   return this.http.get<Contact[]>(this.url);
-  // }
+  getContacts(): Observable<Contact[]> {
+    return this.http.get<Contact[]>(this.url);
+  }
 
 
 
@@ -39,12 +39,12 @@ export class ContactService {
    return this.http.get<any>(this.url,{headers})
   }
 
-  // getContacts(page: number = 1, search: string = "", token: string): Observable<any> {
-  //   return this.http.get<any>(
-  //     `${this.url}?page=${page}&search=${search}`,
-  //     this.getHeaders()
-  //   );
-  // };
+  getContactPage(page: number = 1): Observable<any> {
+    return this.http.get<any>(
+      `${this.url}?page=${page}`,
+      {headers: this.getHeaders()}
+    );
+  };
 
 
 

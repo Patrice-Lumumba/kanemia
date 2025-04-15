@@ -1,6 +1,6 @@
 import { AuthService } from './../../core/services/auth.service';
 import { ContactService } from './../../core/services/contact.service';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, inject, OnInit, ViewChild } from '@angular/core';
 import { NavbarComponent } from "../../shared/components/navbar/navbar.component";
 import { Contact, Contacts } from '../../shared/models/contact.model';
 import { ContactFormComponent } from "../contact-form/contact-form.component";
@@ -10,11 +10,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatSort, MatSortModule, Sort} from '@angular/material/sort'
 import { Router, RouterLink } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog/confirm-dialog.component';
-// import { MessageService } from 'primeng/components/common/messageservice';
+import { from } from 'rxjs';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 
 @Component({
   selector: 'app-dashboard',
@@ -27,16 +29,30 @@ import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog/c
     MatPaginatorModule,
     MatTableModule,
     RouterLink,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatTableModule,
+    MatSortModule
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
   standalone: true,
   providers: [ContactService, AuthService],
 })
-export class DashboardComponent implements OnInit {
-  // contactCount: number = 0; // Variable pour stocker le nombre de contacts
-  // errorMessage: string = '';
+export class DashboardComponent implements OnInit, AfterViewInit {
+
+  private _liveAnnouncer = inject(LiveAnnouncer);
+
+  displayColumns: string[] = [
+    'first_name',
+    'last_name',
+    'email',
+    'phone',
+    'photo'
+  ]
+
+  ELEMENT_DATA: Contact[] = []
+  dataSourceSort = new MatTableDataSource<Contact>([]);
+
   contacts: Contact[] = [];
   paginatedContacts: any[] = []; // Contacts affichés pour la page actuelle
   currentPage: number = 1;
@@ -55,12 +71,23 @@ export class DashboardComponent implements OnInit {
 
   }
 
+  @ViewChild(MatSort) sort!: MatSort;
   dataSource = new MatTableDataSource<Contact>(this.contacts);
+
+  announceSortChange(sortState: Sort){
+    if (sortState.direction) {
+      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    } else {
+      this._liveAnnouncer.announce('Sorting cleared');
+    }
+
+  }
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   // onRowSelect(selectionType: 'all' | 'single', contactData: any) {
@@ -102,6 +129,13 @@ export class DashboardComponent implements OnInit {
       console.log('Response:', response.data);
 
     });
+    this.loadContacts()
+    }
+
+    loadContacts(): void{
+      this.contactService.getContacts().subscribe((contacts: Contact[]) => {
+        this.dataSource.data = contacts;
+      });
     }
 
     logout() {
@@ -113,6 +147,14 @@ export class DashboardComponent implements OnInit {
       const endIndex = startIndex + this.itemsPerPage;
       this.paginatedContacts = this.contacts.slice(startIndex, endIndex);
     }
+
+    // onPageChange(event: PageEvent): void {
+    //   this.currentPage = event.pageIndex;
+    //   this.itemsPerPage = event.pageSize;
+
+    //   // Si vous chargez les données paginées depuis une API, appelez ici votre service
+    //   this.updatePaginatedContacts();
+    // }
 
     goToPage(page: number) {
       if (page >= 1 && page <= this.totalPages) {

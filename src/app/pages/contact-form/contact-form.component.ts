@@ -56,51 +56,8 @@ export class ContactFormComponent {
 })
 
 
-
-
-
-  // addContact() {
-
-  //   var inputData = {
-  //     id: this.id,
-  //     firstName: this.first_name,
-  //     lastName: this.last_name,
-  //     email: this.email,
-  //     phone: this.phone,
-  //     photo: this.photo,
-  //     role: this.role
-  //   }
-
-  //   this.contactService.addContact({
-  //     id: this.id,
-  //     firstName: this.first_name,
-  //     lastName: this.last_name,
-  //     email: this.email,
-  //     phone: this.phone,
-  //     photo: this.photo,
-  //     role: this.role
-  //   }).subscribe((contact) => {
-  //     console.log('Contact added:', contact);
-  //     // Rediriger vers la page de contact après l'ajout
-  //     this.router.navigate(['/dashboard']);
-
-  //     // this.id = '';
-  //     this.first_name = '';
-  //     this.last_name = '';
-  //     this.email = '';
-  //     this.phone = '';
-  //     this.photo = '';
-  //     this.role = '';
-  //   },
-  //   (error) => {
-  //     console.error('Error adding contact:', error);
-  //   })
-
-  // }
-
   ngOnInit() {
     this.contactForm = this.fb.group({
-      // id: ['', Validators.required],
       first_name: ['', Validators.required],
       last_name: ['', Validators.required],
       email: ['', Validators.required, Validators.email],
@@ -144,7 +101,6 @@ export class ContactFormComponent {
     }
   }
 
-  // Méthode pour annuler l'édition et revenir à la page de contacts
   cancel() {
     this.router.navigate(['/dashboard']); // Rediriger vers la page de contacts
   }

@@ -1,17 +1,22 @@
 <div class="min-h-screen bg-gray-50 pb-10">
   <div class="mx-auto ">
-    <app-navbar></app-navbar>
       <div class="py-4">
           <h2 class="text-lg font-semibold text-gray-900">Mes Contacts</h2>
           <button type="button" class="btn btn-danger" (click)="logout()">Déconnexion</button>
         <div   class="">
           <div class=" rounded-lg bg-white shadow-md p-4 mb-6 sm:mb-0">
+            <input type="search" name="" id="" placeholder="Rechercher un contact" class="form-control">
+
             <button mat-raised-button color="primary" routerLink="/contact-form" class="flex items-end mb-4">
               <mat-icon>add</mat-icon>
               <span class="ml-2">Ajouter un contact</span>
             </button>
 
-            <table class="table caption-top table-jumbotron" >
+            <div class="row">
+              <input type="search" name="" id="" placeholder="Rechercher un contact" class="form-control">
+            </div>
+
+            <table class="table caption-top table-stripe" >
               <caption>List of users</caption>
               <thead>
                 <tr>
@@ -34,7 +39,7 @@
                   <td>
                     <button mat-button aria-label="Detail Icon" color="primary" [routerLink]="['/contact-details', contact.id]"><mat-icon class="mat-18">remove_red_eye</mat-icon></button>
                     <button mat-button aria-label="Edit Icon" color="primary" [routerLink]="['/contact-form', contact.id]"><mat-icon class="mat-18">edit</mat-icon></button>
-                    <button mat-button aria-label="Delete Icon" color="warn" (click)="deleteContact(contact.id)"><mat-icon class="mat-18">delete</mat-icon></button>
+                    <button mat-button aria-label="Delete Icon" style="color: #ff6584;" (click)="deleteContact(contact.id)"><mat-icon class="mat-18">delete</mat-icon></button>
                   </td>
                 </tr>
               </tbody>
@@ -50,6 +55,68 @@
                   </mat-paginator>
               </div>
             </table>
+
+            <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+              <!-- Prénom Column -->
+              <ng-container matColumnDef="first_name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Prénom</th>
+                <td mat-cell *matCellDef="let contact">{{ contact.first_name }}</td>
+              </ng-container>
+
+              <!-- Nom Column -->
+              <ng-container matColumnDef="last_name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Nom</th>
+                <td mat-cell *matCellDef="let contact">{{ contact.last_name }}</td>
+              </ng-container>
+
+              <!-- Email Column -->
+              <ng-container matColumnDef="email">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+                <td mat-cell *matCellDef="let contact">{{ contact.email }}</td>
+              </ng-container>
+
+              <!-- Téléphone Column -->
+              <ng-container matColumnDef="phone">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Téléphone</th>
+                <td mat-cell *matCellDef="let contact ">{{ contact.phone }}</td>
+              </ng-container>
+
+              <!-- Photo Column -->
+              <ng-container matColumnDef="photo">
+                <th mat-header-cell *matHeaderCellDef>Photo</th>
+                <td mat-cell *matCellDef="let contact">
+                  <img [src]="contact.photo" alt="photo de profil" width="50px">
+                </td>
+              </ng-container>
+
+              <!-- Actions Column -->
+              <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef>Actions</th>
+                <td mat-cell *matCellDef="let contact">
+                  <button mat-button color="primary" [routerLink]="['/contact-details', contact.id]">
+                    <mat-icon>remove_red_eye</mat-icon>
+                  </button>
+                  <button mat-button color="accent" [routerLink]="['/contact-form', contact.id]">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button mat-button color="warn" (click)="deleteContact(contact.id)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayColumns;"></tr>
+            </table>
+
+            <mat-paginator
+              [pageSizeOptions]="[5, 10, 20]"
+              showFirstLastButtons
+              [length]="contacts.length"
+              aria-label="Pagination"
+              (page)="updatePaginatedContacts()">
+            </mat-paginator>
+
           </div>
         </div>
       </div>
