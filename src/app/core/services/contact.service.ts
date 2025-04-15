@@ -53,15 +53,10 @@ export class ContactService {
     return this.http.get<Contact>(`${this.url}/${id}`, { headers: this.getHeaders() });
   }
 
-  
 
-  addContact(contact: Contact): Observable<any> {
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    });
-    return this.http.post<any>(this.url, contact, { headers });
+
+  addContact(contact: Contact, token: string): Observable<any> {
+    return this.http.post(`${this.url}`, contact, { headers: this.getHeaders() })
   }
 
   updateContact(id: number, contact: any): Observable<any> {

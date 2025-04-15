@@ -2,24 +2,21 @@
   <div class="mx-auto ">
     <app-navbar></app-navbar>
       <div class="py-4">
-        <div class="my-5">
           <h2 class="text-lg font-semibold text-gray-900">Mes Contacts</h2>
-        </div>
           <button type="button" class="btn btn-danger" (click)="logout()">Déconnexion</button>
-        <div   class="grid sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-3">
+        <div   class="">
           <div class=" rounded-lg bg-white shadow-md p-4 mb-6 sm:mb-0">
-            <a href="/contact-form" >Créer</a>
-            <button mat-raised-button color="primary" routerLink="/contact-form" class="flex items-center mb-4">
+            <button mat-raised-button color="primary" routerLink="/contact-form" class="flex items-end mb-4">
               <mat-icon>add</mat-icon>
               <span class="ml-2">Ajouter un contact</span>
             </button>
 
-            <table class="table caption-top table-bordered" >
+            <table class="table caption-top table-jumbotron" >
               <caption>List of users</caption>
               <thead>
                 <tr>
-                  <th scope="col">First</th>
-                  <th scope="col">Last</th>
+                  <th scope="col">Prénom</th>
+                  <th scope="col">Nom</th>
                   <th scope="col">Email</th>
                   <th scope="col">Phone</th>
                   <th scope="col">Photo</th>
@@ -28,19 +25,30 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let contact of contacts, let i = index">
+                <tr *ngFor="let contact of contacts">
                   <td>{{contact.first_name}}</td>
                   <td>{{contact.last_name}}</td>
                   <td>{{contact.email}}</td>
                   <td>{{contact.phone}}</td>
-                  <td><img [src]="contact.photo" alt="photo de profil"></td>
+                  <td><img [src]="contact.photo" alt="photo de profil" width="50px"></td>
                   <td>
-                    <button mat-raised-button color="primary" [routerLink]="['/contact-details', contact.id]">Détails</button>
-                    <button mat-raised-button color="primary" [routerLink]="['/contact-form', contact.id]">Editer</button>
-                    <button mat-raised-button color="warn" (click)="deleteContact(contact.id)">Supprimer</button>
+                    <button mat-button aria-label="Detail Icon" color="primary" [routerLink]="['/contact-details', contact.id]"><mat-icon class="mat-18">remove_red_eye</mat-icon></button>
+                    <button mat-button aria-label="Edit Icon" color="primary" [routerLink]="['/contact-form', contact.id]"><mat-icon class="mat-18">edit</mat-icon></button>
+                    <button mat-button aria-label="Delete Icon" color="warn" (click)="deleteContact(contact.id)"><mat-icon class="mat-18">delete</mat-icon></button>
                   </td>
                 </tr>
               </tbody>
+              <div class="mat-elevation-z8 flex-auto">
+                <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+                                  [pageSize]="itemsPerPage"
+                                  (page)="updatePaginatedContacts()"
+                                 pageIndex="0"
+                                 [length]="contacts.length"
+                                  [pageIndex]="currentPage - 1"
+                                  [showFirstLastButtons]="true"
+                                  aria-label="Select contact">
+                  </mat-paginator>
+              </div>
             </table>
           </div>
         </div>
@@ -48,30 +56,4 @@
   </div>
 </div>
 
-<div class="mat-elevation-z8">
-  <table mat-table *ngFor="let contact of contacts">
 
-    <!-- Position Column -->
-    <ng-container matColumnDef="first_name" >
-      <th mat-header-cell *matHeaderCellDef> No. </th>
-      <td mat-cell > {{contact.user_id}} </td>
-      <td mat-cell > {{contact.first_name}} </td>
-      <td mat-cell > {{contact.last_name}} </td>
-      <td mat-cell > {{contact.email}} </td>
-      <td mat-cell > {{contact.phone}} </td>
-      <td mat-cell > {{contact.photo}} </td>
-    </ng-container>
-
-
-
-  </table>
-  <mat-paginator [pageSizeOptions]="[5, 10, 20]"
-                    [pageSize]="itemsPerPage"
-                    (page)="updatePaginatedContacts()"
-                   pageIndex="0"
-                   [length]="contacts.length"
-                    [pageIndex]="currentPage - 1"
-                    [showFirstLastButtons]="true"
-                    aria-label="Select page of periodic elements">
-    </mat-paginator>
-</div>

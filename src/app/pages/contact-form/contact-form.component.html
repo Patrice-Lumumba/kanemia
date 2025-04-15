@@ -1,21 +1,39 @@
-<div class="form-container">
-  <form>
-    <label for="first_name" class="form-label">first_page</label>
-    <input type="text" class="form-control" id="first_name" placeholder="Entrez votre email" formControlName="first_name">
-    <label for="last_name" class="form-label">last_name</label>
-    <input type="text" class="form-control" id="last_name" placeholder="Entrez votre email" formControlName="last_name">
-    <label for="email" class="form-label">Email</label>
-    <input type="email" class="form-control" id="email" placeholder="Entrez votre email" formControlName="email">
+<div class="container">
+  <app-navbar></app-navbar>
+  <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="form-container">
+    <div class="mb-3">
+      <label for="first_name" class="form-label">Prénom</label>
+      <input type="text" class="form-control" id="first_name" placeholder="Entrez votre nrénom" formControlName="first_name">
+    </div>
 
-    <label for="téléphone" class="form-label">Téléphone</label>
-    <input type="tel" class="form-control" formControlName="phone" placeholder="Entrez votre numéro de téléphone" formControlName="phone">
+    <div class="mb-3">
+      <label for="last_name" class="form-label">Nom</label>
+      <input type="text" class="form-control" id="last_name" placeholder="Entrez votre nom" formControlName="last_name">
+    </div>
 
-    <label>Photo:</label>
-    <input type="text" formControlName="photo" placeholder="Entrez l'URL de votre photo" />
+    <div class="mb-3">
+      <label for="email" class="form-label">Email</label>
+      <div class="col-auto">
+      <input type="email" class="form-control" id="email" placeholder="Entrez votre email" formControlName="email">
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="téléphone" class="form-label">Téléphone</label>
+      <input type="tel" class="form-control" formControlName="phone" placeholder="Entrez votre numéro de téléphone" formControlName="phone">
+    </div>
 
-    <button type="submit" [disabled]="contactForm.invalid" class="btn btn-primary" (click)="onSubmit()">
+    <div class="mb-3">
+      <label>Photo:</label>
+      <input type="text" class="form-control" formControlName="photo" placeholder="Entrez l'URL de votre photo" />
+    </div>
+
+    <button type="submit" [disabled]="contactForm.invalid" class="btn btn-success" (click)="onSubmit()">
       {{editing ? 'Modifier' : 'Submit'}}
     </button>
-    <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+    <button type="button" class="btn btn-danger" (click)="cancel()">Cancel</button>
+    <div class="col-3 mb-3">
+      <button routerLink="/dashboard" class="btn btn-primary">Retour au tableau de bord</button>
+    </div>
   </form>
 </div>
+<app-footer></app-footer>

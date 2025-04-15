@@ -12,14 +12,15 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { Router, RouterLink } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog/confirm-dialog.component';
 // import { MessageService } from 'primeng/components/common/messageservice';
 
 @Component({
   selector: 'app-dashboard',
   imports: [
     NavbarComponent,
-    ContactFormComponent,
-    ContactDetailsComponent,
+
     CommonModule,
     MatIconModule,
     MatButtonModule,
@@ -46,8 +47,12 @@ export class DashboardComponent implements OnInit {
   token: string = localStorage.getItem('token') || '';
   constructor(
     private contactService: ContactService,
-    private authService: AuthService,) {
+    private authService: AuthService,
+    private dialog: MatDialog,
+
+  ) {
     console.log('Dashboard component');
+
   }
 
   dataSource = new MatTableDataSource<Contact>(this.contacts);
@@ -131,7 +136,7 @@ export class DashboardComponent implements OnInit {
 
     submitForm(contact: Contact) {
       console.log('Form submitted:', contact);
-      this.contactService.addContact(contact).subscribe((response) => {
+      this.contactService.addContact(contact, this.token).subscribe((response) => {
         console.log('Contact added:', response);
         this.contacts.push(response.data); // Ajouter le contact à la liste des contacts
         this.updatePaginatedContacts(); // Mettre à jour les contacts paginés
@@ -139,11 +144,26 @@ export class DashboardComponent implements OnInit {
     }
 
     deleteContact(id: number) {
-      console.log('Contact deleted:', id);
-      this.contactService.deleteContact(id).subscribe((response) => {
-        console.log('Contact deleted:', response);
-        this.contacts = this.contacts.filter((contact) => contact.user_id !== id); // Supprimer le contact de la liste
-        this.updatePaginatedContacts(); // Mettre à jour les contacts paginés
+      const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+        width: '500px',
+        data: { id },
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          console.log('Suppression confirmée...');
+
+          setTimeout(() => {
+            this.contactService.deleteContact(id).subscribe((response) => {
+              console.log('Contact supprimé :', response);
+              this.contacts = this.contacts.filter((contact) => contact.user_id !== id);
+              this.updatePaginatedContacts();
+            });
+          }, 2000); // délai de 2s
+        } else {
+          console.log('Suppression annulée.');
+        }
       });
     }
+
   }

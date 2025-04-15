@@ -1,0 +1,7 @@
+{
+  "/auth/login": {
+    "target": "https://www.api.4gul.kanemia.com",
+    "secure": false,
+    "changeOrigin": true
+  }
+}

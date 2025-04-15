@@ -1,0 +1,10 @@
+<h1 matDialogTitle>Confirmer la suppression</h1>
+
+<div mat-dialog-content>
+    Ëtes-vous sûr de vouloir supprimer ce contact?
+</div>
+
+<div mat-dialog-actions>
+    <button mat-button (click)="Cancel()">Annuler</button>
+    <button mat-button mat-dialog-close cdk color="warn" (click)="Confirm()">Supprimer</button>
+</div>

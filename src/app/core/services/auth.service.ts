@@ -17,10 +17,11 @@ export class AuthService {
     return this.http.post(`${this.baseUrl}auth/login`, credentials).pipe(
       tap((response: any) => {
         console.log("Réponse API:", response); // <-- Vérifie la réponse exacte de l'API
-        const token = response.token || response.data?.token || response.user?.token; // <-- Vérifie plusieurs formats
-        if (token) {
-          this.localStorageService.setItem('token', token);
-          console.log("Token enregistré:", token);
+        // const token = response.token || response.data?.token || response.user?.token; // <-- Vérifie plusieurs formats
+        if (response.user.token) {
+          localStorage.setItem('token', response.user.token);
+          localStorage.setItem('id', response.user.id)
+          console.log("Token enregistré:", response.user.token);
         } else {
           console.error("Aucun token reçu !");
         }

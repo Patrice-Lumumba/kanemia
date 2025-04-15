@@ -12,7 +12,7 @@ import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-login',
-  imports: [FormsModule, CommonModule, ReactiveFormsModule, RouterModule, ContactFormComponent, DashboardComponent, ReactiveFormsModule, CommonModule, FormsModule, MatInputModule, MatButtonModule, MatCardModule],
+  imports: [FormsModule, CommonModule, ReactiveFormsModule, RouterModule, ReactiveFormsModule, CommonModule, FormsModule, MatInputModule, MatButtonModule, MatCardModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
@@ -36,8 +36,8 @@ export class LoginComponent {
 
   constructor(private fb: FormBuilder, private authService: AuthService, private router: Router){
     this.loginForm = this.fb.group({
-      email: ['damso@gmail.com', [Validators.required, Validators.email]],
-      password: ['damso123', [Validators.required, Validators.minLength(6)]]
+      email: ['user@example.com', [Validators.required, Validators.email]],
+      password: ['motdepasse', [Validators.required, Validators.minLength(6)]]
     });
 
   }

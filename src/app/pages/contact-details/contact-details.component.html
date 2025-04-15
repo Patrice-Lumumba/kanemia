@@ -1,19 +1,26 @@
-<p>contact-details works!</p>
-<div class="contact-details" *ngIf="contact">
-  <h2 style="color: #6C63FF;">Détails du Contact</h2>
-  <p><strong>First_Name:</strong> {{ contact.first_name }}</p>
-  <!-- <input type="text" class="form-control" disabled value={{contact.first_name}} readonly>
-  <input type="text" class="form-control" disabled value={{contact.last_name}} readonly>
-  <input type="text" class="form-control" disabled value={{contact.email}} readonly>
-  <input type="text" class="form-control" disabled value={{contact.phone}} readonly>
-  <div class="col-3">
-  <input type="text" class="form-control" disabled value={{contact.first_name}} readonly>
-  </div> -->
-  <p><strong>Last_Name:</strong> {{ contact.last_name }}</p>
-  <p><strong>Email:</strong> {{ contact.email }}</p>
-  <p><strong>Phone:</strong> {{ contact.phone }}</p>
-  <p><strong>Photo:</strong> {{ contact.photo }}</p>
-  <p><strong>Photo:</strong> <img [src]="contact.photo" alt="Photo" class="photo"></p>
-
-  <button routerLink="/dashboard" class="btn btn-primary">Retour au tableau de bord</button>
+<div class="container">
+  <app-navbar></app-navbar>
+  <div class="contact-details" *ngIf="contact">
+    <div class="card" style="width: 18rem;">
+      <div class="card-body">
+        <h5 class="card-title" style="color: #6C63FF;">Détail du contact</h5>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item"><img [src]="contact.photo" alt="Photo" class="photo"></li>
+        <li class="list-group-item"><strong>Prénom:</strong> {{ contact.first_name }}</li>
+        <li class="list-group-item"><strong>Nom:</strong> {{ contact.last_name }}</li>
+        <li class="list-group-item"><strong>Email:</strong> {{ contact.email }}</li>
+        <li class="list-group-item"><strong>Phone:</strong> {{ contact.phone }}</li>
+      </ul>
+      <button routerLink="/dashboard" class="btn btn-primary">Retour au tableau de bord</button>
+    </div>
+  </div>
 </div>
+<style>
+  .card{
+    /* box-shadow: crimson 3px 4px; */
+    padding: 25px;
+    margin: auto;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Ombre légère */
+  }
+</style>

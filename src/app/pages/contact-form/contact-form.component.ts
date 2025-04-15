@@ -1,21 +1,23 @@
 import { Component, NgModule } from '@angular/core';
 import { ContactService } from '../../core/services/contact.service';
 import { Contact } from '../../shared/models/contact.model';
-import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, FormGroup, FormsModule, NgModel, Validators } from '@angular/forms';
-import { NgIf } from '@angular/common';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { FormBuilder, FormGroup, FormsModule, NgModel, ReactiveFormsModule, Validators } from '@angular/forms';
+import { CommonModule, NgIf } from '@angular/common';
 import { TooltipModule } from 'primeng/tooltip';
 import { CheckboxModule } from 'primeng/checkbox';
 import { DialogModule } from 'primeng/dialog';
 import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { ToggleButtonModule } from 'primeng/togglebutton';
+import { NavbarComponent } from "../../shared/components/navbar/navbar.component";
+import { FooterComponent } from "../../shared/components/footer/footer.component";
 
 
 @Component({
   selector: 'app-contact-form',
   standalone: true,
-  imports: [FormsModule, NgIf,],
+  imports: [FormsModule, CommonModule, ReactiveFormsModule, RouterModule, NavbarComponent, FooterComponent],
   templateUrl: './contact-form.component.html',
   styleUrl: './contact-form.component.css'
 })
@@ -29,7 +31,7 @@ export class ContactFormComponent {
   contact!: Contact; // Variable pour stocker le contact à éditer
   contactForm! : FormGroup; // FormGroup pour le formulaire de contact
 
-  token = localStorage.getItem('token'); // Récupération du token d'authentification
+  token = localStorage.getItem('token')|| '' ; // Récupération du token d'authentification
   user_id : number = Number(localStorage.getItem('id')); // ID de l'utilisateur
 
   constructor(
@@ -98,7 +100,7 @@ export class ContactFormComponent {
 
   ngOnInit() {
     this.contactForm = this.fb.group({
-      id: ['', Validators.required],
+      // id: ['', Validators.required],
       first_name: ['', Validators.required],
       last_name: ['', Validators.required],
       email: ['', Validators.required, Validators.email],
@@ -110,8 +112,7 @@ export class ContactFormComponent {
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
       if (id) {
-        this.contactId = Number(id);
-        this.editing = true; // Passer en mode édition
+        this.contactId = +id;
         this.editing = true; // Passer en mode édition
         this.contactService.getContactById(this.contactId).subscribe(contact =>{
           this.contactForm.patchValue(contact); // Remplir le formulaire avec les données du contact
@@ -122,23 +123,24 @@ export class ContactFormComponent {
   }
 
   // Méthode pour soumettre le formulaire
-  onSubmit() {
-    if (this.contactForm.valid) { // Vérifier si le formulaire est valide
-      const contactData = this.contactForm.value; // Récupérer les données du formulaire
+  onSubmit(): void {
+    if (this.contactForm.invalid) return;
 
-      if (this.editing) { // Si en mode édition, mettre à jour le contact
-        this.contactService.updateContact(this.contactId, contactData).subscribe(() => {
-          console.log('Contact updated:', contactData);
-          this.router.navigate(['/dashboard']); // Rediriger vers la page de contacts après la mise à jour
-        });
-      } else { // Sinon, ajouter un nouveau contact
-        this.contactService.addContact(contactData).subscribe(() => {
-          console.log('Contact added:', contactData);
-          this.router.navigate(['/dashboard']); // Rediriger vers la page de contacts après l'ajout
-        });
-      }
+    const contactData = {
+      ...this.contactForm.value,
+      user_id: this.user_id
+    };
+
+    if (this.editing && this.contactId) {
+      this.contactService.updateContact(this.contactId, contactData).subscribe(() => {
+        console.log('Contact mis à jour avec succès !');
+        this.router.navigate(['/dashboard']);
+      });
     } else {
-      console.error('Form is invalid'); // Afficher une erreur si le formulaire est invalide
+      this.contactService.addContact(contactData, this.token).subscribe(() => {
+        console.log('Contact ajouté avec succès !');
+        this.router.navigate(['/dashboard']);
+      });
     }
   }
 

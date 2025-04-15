@@ -4,10 +4,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Contact } from '../../shared/models/contact.model';
 import { ContactService } from '../../core/services/contact.service';
+import { NavbarComponent } from "../../shared/components/navbar/navbar.component";
 
 @Component({
   selector: 'app-contact-details',
-  imports: [CommonModule, ReactiveFormsModule, RouterModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, NavbarComponent],
   templateUrl: './contact-details.component.html',
   styleUrl: './contact-details.component.css'
 })

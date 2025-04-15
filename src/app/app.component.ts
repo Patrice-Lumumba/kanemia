@@ -10,12 +10,7 @@ import { DashboardComponent } from "./pages/dashboard/dashboard.component";
   selector: 'app-root',
   imports: [
     RouterOutlet,
-    // RouterLink,
-    // NavbarComponent,
-    // ContactFormComponent,
-    // FooterComponent,
-    LoginComponent,
-    // DashboardComponent
+
 ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
